@@ -1,0 +1,164 @@
+/**
+ * @nekoi93/ui v1.0.0
+ * Design tokens — import this file in your app entry point:
+ *   import "@nekoi93/ui/styles"
+ *
+ * @author   Nekoi <nekoi@everlib.pro>
+ * @homepage https://everlib.pro/
+ * @npm      https://www.npmjs.com/~nekoi93
+ * @license  MIT
+ */
+
+@import "tailwindcss";
+
+/* ─── Color Palette ─────────────────────────────────────────── */
+@theme inline {
+  --font-sans: "Inter", "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  /* Surface */
+  --color-background:    oklch(0.985 0.000 0);
+  --color-foreground:    oklch(0.145 0.012 255);
+  --color-muted:         oklch(0.930 0.005 255);
+  --color-muted-foreground: oklch(0.500 0.018 255);
+
+  /* Brand Primary */
+  --color-primary:       oklch(0.285 0.045 255);
+  --color-primary-foreground: oklch(0.985 0.000 0);
+
+  /* Accent */
+  --color-accent:        oklch(0.530 0.180 255);
+  --color-accent-foreground: oklch(0.985 0.000 0);
+
+  /* Semantic */
+  --color-success:       oklch(0.520 0.155 160);
+  --color-warning:       oklch(0.650 0.155 65);
+  --color-destructive:   oklch(0.520 0.205 25);
+  --color-destructive-foreground: oklch(0.985 0.000 0);
+
+  /* Border / Input */
+  --color-border:        oklch(0.880 0.008 255);
+  --color-input:         oklch(0.960 0.004 255);
+  --color-ring:          oklch(0.530 0.180 255);
+
+  /* Card / Popover */
+  --color-card:          oklch(1.000 0.000 0);
+  --color-card-foreground: oklch(0.145 0.012 255);
+  --color-popover:       oklch(1.000 0.000 0);
+  --color-popover-foreground: oklch(0.145 0.012 255);
+
+  --radius: 0.5rem;
+}
+
+/* ─── CSS Custom Properties (runtime) ───────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Depth shadows */
+  --shadow-btn:   0 2px 0 oklch(0.145 0.012 255 / 0.12),
+                  0 1px 3px oklch(0.145 0.012 255 / 0.08);
+  --shadow-card:  0 1px 3px oklch(0.145 0.012 255 / 0.07),
+                  0 4px 16px oklch(0.145 0.012 255 / 0.06);
+  --shadow-float: 0 4px 6px oklch(0.145 0.012 255 / 0.06),
+                  0 12px 32px oklch(0.145 0.012 255 / 0.10),
+                  0 1px 0 oklch(1 0 0 / 0.80) inset;
+  --shadow-overlay: 0 8px 48px oklch(0.145 0.012 255 / 0.16);
+
+  /* 3D button light effect */
+  --light-top:    inset 0 1px 0 oklch(1 0 0 / 0.30);
+  --light-press:  inset 0 2px 4px oklch(0.145 0.012 255 / 0.12);
+
+  /* Glass */
+  --glass-bg:     oklch(1.000 0.000 0 / 0.72);
+  --glass-border: oklch(1.000 0.000 0 / 0.60);
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Utility Classes ────────────────────────────────────────── */
+
+/* Glassmorphism surface */
+.nk-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-float);
+}
+
+/* Floating card */
+.nk-float {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-float);
+  border-radius: var(--radius);
+}
+
+/* Standard card */
+.nk-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius);
+}
+
+/* 3D button base */
+.nk-btn-3d {
+  box-shadow: var(--shadow-btn), var(--light-top);
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+.nk-btn-3d:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-btn),
+              var(--light-top),
+              0 4px 12px oklch(0.145 0.012 255 / 0.10);
+}
+.nk-btn-3d:active {
+  transform: translateY(0);
+  box-shadow: var(--light-press);
+}
+
+/* Flat menu item */
+.nk-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+  cursor: pointer;
+  user-select: none;
+  transition: background 120ms ease, color 120ms ease;
+}
+.nk-menu-item:hover {
+  background: var(--color-muted);
+}
+.nk-menu-item[data-active="true"] {
+  background: oklch(from var(--color-accent) l c h / 0.10);
+  color: var(--color-accent);
+}
+
+/* Focus ring */
+.nk-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-background),
+              0 0 0 5px oklch(from var(--color-accent) l c h / 0.50);
+}
+
+/* Scroll margin for sticky headers */
+section[id] {
+  scroll-margin-top: 72px;
+}
